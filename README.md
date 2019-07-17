@@ -1,4 +1,4 @@
-#Raspberry Pi Positioning Tracker
+# Raspberry Pi Positioning Tracker
 
 This project tracks the position of a Raspberry PI in terms of latitude, longitude, x/y/z axis, and whether or not it has moved or been dropped.
 
