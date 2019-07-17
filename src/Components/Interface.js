@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import GoogleMap from "google-map-react";
 import axios from "axios";
 
-const mapStyles = {
-  width: "100%",
-  height: "100%"
-};
+
+// const mapStyles = {
+//   width: "100%",
+//   height: "100%"
+// };
 
 const markerStyle = {
   height: "50px",
