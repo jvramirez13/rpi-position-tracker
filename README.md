@@ -1,3 +1,7 @@
+#Raspberry Pi Positioning Tracker
+
+This project tracks the position of a Raspberry PI in terms of latitude, longitude, x/y/z axis, and whether or not it has moved or been dropped.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
