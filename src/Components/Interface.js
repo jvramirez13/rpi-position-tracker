@@ -39,10 +39,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Interface = () => {
-  // const mapStyles = {
-  //   width: "100%",
-  //   height: "100%"
-  // };
   const classes = useStyles();
 
   const dispatch = useDispatch();
