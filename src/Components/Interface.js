@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-import GoogleMap from "google-map-react";
+import React, { useEffect } from "react";
 import axios from "axios";
-
+import GoogleMap from "google-map-react";
 import Avatar from "@material-ui/core/Avatar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Paper from "@material-ui/core/Paper";
@@ -9,7 +8,8 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import TrackingIcon from "@material-ui/icons/TrackChanges";
-import Maps from "./Maps.js";
+import { useDispatch, useSelector } from "react-redux";
+import { updateAction } from "../Redux.js";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -41,14 +41,23 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Interface() {
+const Interface = () => {
   // const mapStyles = {
   //   width: "100%",
   //   height: "100%"
   // };
   const classes = useStyles();
 
-  
+  const latitude = useSelector(state => state.latitude);
+  const longitude = useSelector(state => state.longitude);
+  const xaxis = useSelector(state => state.xaxis);
+  const yaxis = useSelector(state => state.yaxis);
+  const zaxis = useSelector(state => state.zaxis);
+  const dropped = useSelector(state => state.dropped);
+  const motion = useSelector(state => state.motion);
+
+  const dispatch = useDispatch();
+  const update = data => dispatch(updateAction(data));
 
   const markerStyle = {
     height: "50px",
@@ -71,20 +80,33 @@ export default function Interface() {
     </div>
   );
 
-  function evaluateBoolean(number) {
-    if (number === 0) {
-      return "False";
-    } else {
-      return "True";
-    }
-  }
-
-  
+  useEffect(() => {
+    let interval = setInterval(
+      () =>
+        axios.get(process.env.REACT_APP_API_URL).then(response => {
+          update(response.data);
+        }),
+      1000
+    );
+    return () => {
+      clearInterval(interval);
+    };
+  });
 
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
-      <Maps />
+      <Grid item xs={false} sm={4} md={7}>
+        <GoogleMap
+          bootstrapURLKeys={{
+            key: process.env.REACT_APP_MAPS_KEY
+          }}
+          center={{ lat: latitude, lng: longitude }}
+          zoom={14}
+        >
+          <Marker title={"Current Location"} lat={latitude} lng={longitude} />
+        </GoogleMap>
+      </Grid>
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
@@ -144,4 +166,6 @@ export default function Interface() {
       </Grid>
     </Grid>
   );
-}
+};
+
+export default Interface;
