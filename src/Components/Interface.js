@@ -1,15 +1,12 @@
 import React, { useEffect } from "react";
 import axios from "axios";
-import GoogleMap from "google-map-react";
-import Avatar from "@material-ui/core/Avatar";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import TrackingIcon from "@material-ui/icons/TrackChanges";
-import { useDispatch, useSelector } from "react-redux";
+import Maps from "./Maps.js";
+import { useDispatch } from "react-redux";
 import { updateAction } from "../Redux.js";
+import Information from "./Information.js";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -48,37 +45,8 @@ const Interface = () => {
   // };
   const classes = useStyles();
 
-  const latitude = useSelector(state => state.latitude);
-  const longitude = useSelector(state => state.longitude);
-  const xaxis = useSelector(state => state.xaxis);
-  const yaxis = useSelector(state => state.yaxis);
-  const zaxis = useSelector(state => state.zaxis);
-  const dropped = useSelector(state => state.dropped);
-  const motion = useSelector(state => state.motion);
-
   const dispatch = useDispatch();
   const update = data => dispatch(updateAction(data));
-
-  const markerStyle = {
-    height: "50px",
-    width: "50px",
-    marginTop: "-50px"
-  };
-
-  const imgStyle = {
-    height: "100%"
-  };
-
-  const Marker = ({ title }) => (
-    <div style={markerStyle}>
-      <img
-        style={imgStyle}
-        src="https://res.cloudinary.com/og-tech/image/upload/s--OpSJXuvZ--/v1545236805/map-marker_hfipes.png"
-        alt={title}
-      />
-      <h3>{title}</h3>
-    </div>
-  );
 
   useEffect(() => {
     let interval = setInterval(
@@ -96,74 +64,8 @@ const Interface = () => {
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
-      <Grid item xs={false} sm={4} md={7}>
-        <GoogleMap
-          bootstrapURLKeys={{
-            key: process.env.REACT_APP_MAPS_KEY
-          }}
-          center={{ lat: latitude, lng: longitude }}
-          zoom={14}
-        >
-          <Marker title={"Current Location"} lat={latitude} lng={longitude} />
-        </GoogleMap>
-      </Grid>
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <TrackingIcon />
-          </Avatar>
-          <Typography component="h1" variant="h4" style={{ fontWeight: "700" }}>
-            Raspberry Pi Position Tracker
-          </Typography>
-          <div className={classes.paper}>
-            <Typography component="h1" variant="h5">
-              Latitude: {latitude}°
-            </Typography>
-            <Typography
-              component="h1"
-              variant="h5"
-              style={{ marginTop: "40px" }}
-            >
-              Longitude: {longitude}°
-            </Typography>
-            <Typography
-              component="h1"
-              variant="h5"
-              style={{ marginTop: "40px" }}
-            >
-              X-axis: {xaxis} g
-            </Typography>
-            <Typography
-              component="h1"
-              variant="h5"
-              style={{ marginTop: "40px" }}
-            >
-              Y-axis: {yaxis} g
-            </Typography>
-            <Typography
-              component="h1"
-              variant="h5"
-              style={{ marginTop: "40px" }}
-            >
-              Z-axis: {zaxis} g
-            </Typography>
-            <Typography
-              component="h1"
-              variant="h5"
-              style={{ marginTop: "40px" }}
-            >
-              Dropped: {dropped}
-            </Typography>
-            <Typography
-              component="h1"
-              variant="h5"
-              style={{ marginTop: "40px" }}
-            >
-              Motion Detected: {motion}
-            </Typography>
-          </div>
-        </div>
-      </Grid>
+      <Maps />
+      <Information />
     </Grid>
   );
 };
