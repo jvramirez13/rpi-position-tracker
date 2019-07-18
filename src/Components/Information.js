@@ -6,6 +6,8 @@ import Typography from "@material-ui/core/Typography";
 import TrackingIcon from "@material-ui/icons/TrackChanges";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
+import Buttons from "./Buttons.js";
+import 'typeface-roboto';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -54,7 +56,7 @@ const Information = () => {
         <Avatar className={classes.avatar}>
           <TrackingIcon />
         </Avatar>
-        <Typography component="h1" variant="h4" style={{ fontWeight: "700" }}>
+        <Typography component="h1" variant="h4" style={{ fontWeight: "700", fontFamily: "Roboto", alignContent: "center" }}>
           Raspberry Pi Position Tracker
         </Typography>
         <div className={classes.paper}>
@@ -80,6 +82,7 @@ const Information = () => {
             Motion Detected: {motion}
           </Typography>
         </div>
+        <Buttons />
       </div>
     </Grid>
   );
