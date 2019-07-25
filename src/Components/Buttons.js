@@ -15,7 +15,13 @@ const Buttons = () => {
   const classes = useStyles();
 
   return (
-    <div style={{alignContent: "center", justifyContent: "center", marginBottom: "0px"}}>
+    <div
+      style={{
+        alignContent: "center",
+        justifyContent: "center",
+        marginBottom: "0px"
+      }}
+    >
       <Button variant="contained" color="primary" className={classes.button}>
         Start Tracking
       </Button>

@@ -7,7 +7,7 @@ import TrackingIcon from "@material-ui/icons/TrackChanges";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
 import Buttons from "./Buttons.js";
-import 'typeface-roboto';
+import "typeface-roboto";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,34 +52,48 @@ const Information = () => {
 
   return (
     <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
+      <div
+        className={classes.paper}
+        style={{ marginTop: "25px", marginBottom: "0px" }}
+      >
+        <Avatar className={classes.avatar} style={{ marginBottom: "20px" }}>
           <TrackingIcon />
         </Avatar>
-        <Typography component="h1" variant="h4" style={{ fontWeight: "700", fontFamily: "Roboto", alignContent: "center" }}>
+        <Typography
+          component="h1"
+          variant="h4"
+          style={{
+            fontWeight: "700",
+            fontFamily: "Roboto",
+            alignContent: "center"
+          }}
+        >
           Raspberry Pi Position Tracker
         </Typography>
-        <div className={classes.paper}>
+        <div
+          className={classes.paper}
+          style={{ marginTop: "40px", marginBottom: "40px" }}
+        >
           <Typography component="h1" variant="h5">
-            Latitude: {latitude}°
+            <b>Latitude</b>: {latitude}°
           </Typography>
           <Typography component="h1" variant="h5" style={{ marginTop: "40px" }}>
-            Longitude: {longitude}°
+            <b>Longitude</b>: {longitude}°
           </Typography>
           <Typography component="h1" variant="h5" style={{ marginTop: "40px" }}>
-            X-axis: {xaxis} g
+            <b>X-axis</b>: {xaxis} g
           </Typography>
           <Typography component="h1" variant="h5" style={{ marginTop: "40px" }}>
-            Y-axis: {yaxis} g
+            <b>Y-axis</b>: {yaxis} g
           </Typography>
           <Typography component="h1" variant="h5" style={{ marginTop: "40px" }}>
-            Z-axis: {zaxis} g
+            <b>Z-axis</b>: {zaxis} g
           </Typography>
           <Typography component="h1" variant="h5" style={{ marginTop: "40px" }}>
-            Dropped: {dropped}
+            <b>Dropped</b>: {dropped}
           </Typography>
           <Typography component="h1" variant="h5" style={{ marginTop: "40px" }}>
-            Motion Detected: {motion}
+            <b>Motion Detected</b>: {motion}
           </Typography>
         </div>
         <Buttons />
