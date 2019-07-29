@@ -1,33 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import { useDispatch } from "react-redux";
 import { updateStatus } from "../Redux.js";
-
-const useStyles = makeStyles(theme => ({
-  button: {
-    margin: theme.spacing(1)
-  },
-  input: {
-    display: "none"
-  }
-}));
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
 
 const Buttons = () => {
-  const classes = useStyles();
-
   const [status, setStatus] = useState(false);
 
   const dispatch = useDispatch();
   const update = data => dispatch(updateStatus(data));
 
-  function startTracking() {
-    return setStatus(true);
-  }
-
-  function stopTracking() {
-    return setStatus(false);
-  }
+  const tracking = event => {
+    setStatus(event.target.checked);
+  };
 
   useEffect(() => {
     update(status);
@@ -41,22 +27,21 @@ const Buttons = () => {
         marginBottom: "0px"
       }}
     >
-      <Button
-        variant="contained"
-        color="primary"
-        className={classes.button}
-        onClick={startTracking}
-      >
-        Start Tracking
-      </Button>
-      <Button
-        variant="contained"
-        color="primary"
-        className={classes.button}
-        onClick={stopTracking}
-      >
-        Stop Tracking
-      </Button>
+      <FormGroup row>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={status}
+              onChange={tracking}
+              value="checkedB"
+              color="primary"
+            />
+          }
+          label="Location Tracking Switch"
+          labelPlacement="start"
+          labelStyle={{ fontSize: "100px" }}
+        />
+      </FormGroup>
     </div>
   );
 };
