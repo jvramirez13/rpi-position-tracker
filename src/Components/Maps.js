@@ -35,7 +35,7 @@ const Maps = () => {
           key: process.env.REACT_APP_MAPS_KEY
         }}
         center={{ lat: latitude, lng: longitude }}
-        zoom={14}
+        zoom={16}
       >
         <Marker title={"Current Location"} lat={latitude} lng={longitude} />
       </GoogleMap>

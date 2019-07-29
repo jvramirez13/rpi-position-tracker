@@ -1,13 +1,14 @@
 import { createStore } from "redux";
 
 const initialState = {
-  latitude: 0.0,
-  longitude: 0.0,
+  latitude: 38.063717,
+  longitude: -78.493738,
   xaxis: 0.0,
   yaxis: 0.0,
   zaxis: 0.0,
   dropped: "",
-  motion: ""
+  motion: "",
+  update: true
 };
 
 export const store = createStore(
@@ -36,6 +37,17 @@ function reducer(state, action) {
         dropped: evaluateBoolean(action.payload["Dropped"]),
         motion: evaluateBoolean(action.payload["Motion Detected"])
       };
+    case "STATUS":
+      return {
+        latitude: state.latitude,
+        longitude: state.longitude,
+        xaxis: state.xaxis,
+        yaxis: state.yaxis,
+        zaxis: state.zaxis,
+        dropped: state.dropped,
+        motion: state.motion,
+        update: action.payload
+      };
     default:
       return state;
   }
@@ -43,5 +55,10 @@ function reducer(state, action) {
 
 export const updateAction = data => ({
   type: "UPDATE",
+  payload: data
+});
+
+export const updateStatus = data => ({
+  type: "STATUS",
   payload: data
 });

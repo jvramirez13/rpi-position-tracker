@@ -4,7 +4,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Maps from "./Maps.js";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateAction } from "../Redux.js";
 import Information from "./Information.js";
 
@@ -44,11 +44,15 @@ const Interface = () => {
   const dispatch = useDispatch();
   const update = data => dispatch(updateAction(data));
 
+  const status = useSelector(state => state.update);
+
   useEffect(() => {
     let interval = setInterval(
       () =>
         axios.get(process.env.REACT_APP_API_URL).then(response => {
-          update(response.data);
+          if (status === true) {
+            update(response.data);
+          }
         }),
       1000
     );
