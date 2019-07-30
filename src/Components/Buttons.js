@@ -39,7 +39,6 @@ const Buttons = () => {
           }
           label="Location Tracking Switch"
           labelPlacement="start"
-          labelStyle={{ fontSize: "100px" }}
         />
       </FormGroup>
     </div>
