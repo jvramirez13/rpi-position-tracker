@@ -13,9 +13,9 @@ const Maps = () => {
   const pathState = useSelector(state => state.path);
 
   const markerStyle = {
-    height: "40px",
-    width: "40px",
-    marginTop: "-55px"
+    height: "30px",
+    width: "30px",
+    marginTop: "-60px"
   };
 
   const imgStyle = {
@@ -74,7 +74,7 @@ const Maps = () => {
       <GoogleMap
         bootstrapURLKeys={{ key: process.env.REACT_APP_MAPS_KEY }}
         center={{ lat: latitudeState, lng: longitudeState }}
-        defaultZoom={16}
+        defaultZoom={17}
         onGoogleApiLoaded={({ map, maps }) => onMapLoaded(map, maps)}
       >
         <Marker
