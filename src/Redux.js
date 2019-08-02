@@ -31,14 +31,14 @@ var pathArray = [];
 function reducer(state, action) {
   switch (action.type) {
     case "UPDATE":
-      let latVar = state.latitude + .001;
-      let longVar = state.longitude +.001;
-      let locationObject = { lat: latVar, lng: longVar };
+      let locationObject = {
+        lat: action.payload.Latitude,
+        lng: action.payload.Longitude
+      };
       pathArray.push(locationObject);
-      console.log(typeof state.latitude)
       return {
-        latitude: state.latitude + .001,
-        longitude: state.longitude + .001,
+        latitude: action.payload.Latitude,
+        longitude: action.payload.Longitude,
         xaxis: action.payload["X-axis"],
         yaxis: action.payload["Y-axis"],
         zaxis: action.payload["Z-axis"],
