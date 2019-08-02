@@ -8,6 +8,7 @@ const initialState = {
   zaxis: 0.0,
   dropped: "",
   motion: "",
+  path: [],
   update: true
 };
 
@@ -25,17 +26,25 @@ function evaluateBoolean(number) {
   }
 }
 
+var pathArray = [];
+
 function reducer(state, action) {
   switch (action.type) {
     case "UPDATE":
+      let latVar = state.latitude + .001;
+      let longVar = state.longitude +.001;
+      let locationObject = { lat: latVar, lng: longVar };
+      pathArray.push(locationObject);
+      console.log(typeof state.latitude)
       return {
-        latitude: action.payload.Latitude,
-        longitude: action.payload.Longitude,
+        latitude: state.latitude + .001,
+        longitude: state.longitude + .001,
         xaxis: action.payload["X-axis"],
         yaxis: action.payload["Y-axis"],
         zaxis: action.payload["Z-axis"],
         dropped: evaluateBoolean(action.payload["Dropped"]),
-        motion: evaluateBoolean(action.payload["Motion Detected"])
+        motion: evaluateBoolean(action.payload["Motion Detected"]),
+        path: pathArray
       };
     case "STATUS":
       return {
@@ -46,6 +55,7 @@ function reducer(state, action) {
         zaxis: state.zaxis,
         dropped: state.dropped,
         motion: state.motion,
+        path: state.path,
         update: action.payload
       };
     default:

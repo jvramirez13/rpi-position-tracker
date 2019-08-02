@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import GoogleMap from "google-map-react";
-import { useSelector } from "react-redux";
 import Grid from "@material-ui/core/Grid";
+import { useSelector } from "react-redux";
 
 const Maps = () => {
-  const latitude = useSelector(state => state.latitude);
-  const longitude = useSelector(state => state.longitude);
+  const [map, updateMap] = useState(null);
+  const [maps, updateMaps] = useState(null);
+  const [mapsLoaded, updateMapsLoaded] = useState(false);
+
+  const latitudeState = useSelector(state => state.latitude);
+  const longitudeState = useSelector(state => state.longitude);
+  const pathState = useSelector(state => state.path);
 
   const markerStyle = {
-    height: "50px",
-    width: "50px",
-    marginTop: "-50px"
+    height: "40px",
+    width: "40px",
+    marginTop: "-55px"
   };
 
   const imgStyle = {
@@ -28,16 +33,56 @@ const Maps = () => {
     </div>
   );
 
+  const onMapLoaded = (map, maps) => {
+    updateMapsLoaded(true);
+    updateMap(map);
+    updateMaps(maps);
+  };
+
+  const afterMapLoadChanges = () => {
+    return renderPolylines(map, maps, pathState);
+  };
+
+  const renderPolylines = (map, maps, path) => {
+    console.log("polylines is running!");
+
+    /** Example of rendering geodesic polyline */
+    if (maps != null) {
+      let geodesicPolyline = new maps.Polyline({
+        path: path,
+        geodesic: true,
+        strokeColor: "00a1e1",
+        strokeOpacity: 1.0,
+        strokeWeight: 4
+      });
+      geodesicPolyline.setMap(map);
+
+      /** Example of rendering non geodesic polyline (straight line) */
+      let nonGeodesicPolyline = new maps.Polyline({
+        path: path,
+        geodesic: false,
+        strokeColor: "#e4e4e4",
+        strokeOpacity: 0.7,
+        strokeWeight: 3
+      });
+      nonGeodesicPolyline.setMap(map);
+    }
+  };
+
   return (
     <Grid item xs={false} sm={4} md={7}>
       <GoogleMap
-        bootstrapURLKeys={{
-          key: process.env.REACT_APP_MAPS_KEY
-        }}
-        center={{ lat: latitude, lng: longitude }}
-        zoom={16}
+        bootstrapURLKeys={{ key: process.env.REACT_APP_MAPS_KEY }}
+        center={{ lat: latitudeState, lng: longitudeState }}
+        defaultZoom={16}
+        onGoogleApiLoaded={({ map, maps }) => onMapLoaded(map, maps)}
       >
-        <Marker title={"Current Location"} lat={latitude} lng={longitude} />
+        <Marker
+          title={"Current Location"}
+          lat={latitudeState}
+          lng={longitudeState}
+        />
+        {mapsLoaded ? afterMapLoadChanges() : ""}
       </GoogleMap>
     </Grid>
   );

@@ -49,7 +49,6 @@ const Information = () => {
   const zaxis = useSelector(state => state.zaxis);
   const dropped = useSelector(state => state.dropped);
   const motion = useSelector(state => state.motion);
-  const status = useSelector(state => state.update);
 
   return (
     <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -99,7 +98,6 @@ const Information = () => {
         </div>
         <Buttons />
       </div>
-      {console.log(status)}
     </Grid>
   );
 };
