@@ -13,9 +13,10 @@ const Maps = () => {
   const pathState = useSelector(state => state.path);
 
   const markerStyle = {
-    height: "30px",
-    width: "30px",
-    marginTop: "-60px"
+    height: "20px",
+    width: "20px",
+    marginLeft: "-10px",
+    marginTop: "-20px"
   };
 
   const imgStyle = {
@@ -44,14 +45,12 @@ const Maps = () => {
   };
 
   const renderPolylines = (map, maps, path) => {
-    console.log("polylines is running!");
-
     /** Example of rendering geodesic polyline */
     if (maps != null) {
       let geodesicPolyline = new maps.Polyline({
         path: path,
         geodesic: true,
-        strokeColor: "00a1e1",
+        strokeColor: "blue",
         strokeOpacity: 1.0,
         strokeWeight: 4
       });
@@ -61,7 +60,7 @@ const Maps = () => {
       let nonGeodesicPolyline = new maps.Polyline({
         path: path,
         geodesic: false,
-        strokeColor: "#e4e4e4",
+        strokeColor: "blue",
         strokeOpacity: 0.7,
         strokeWeight: 3
       });
@@ -75,10 +74,11 @@ const Maps = () => {
         bootstrapURLKeys={{ key: process.env.REACT_APP_MAPS_KEY }}
         center={{ lat: latitudeState, lng: longitudeState }}
         defaultZoom={17}
+        yesIWantToUseGoogleMapApiInternals={true}
         onGoogleApiLoaded={({ map, maps }) => onMapLoaded(map, maps)}
       >
         <Marker
-          title={"Current Location"}
+          label={"Current Location"}
           lat={latitudeState}
           lng={longitudeState}
         />
