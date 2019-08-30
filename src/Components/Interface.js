@@ -49,12 +49,12 @@ const Interface = () => {
   useEffect(() => {
     let interval = setInterval(
       () =>
-        axios.get(process.env.REACT_APP_API_URL).then(response => {
+        axios.get(process.env.REACT_APP_API_GET_URL).then(response => {
           if (status === true) {
             update(response.data);
           }
         }),
-      500
+      700
     );
     return () => {
       clearInterval(interval);
