@@ -48,6 +48,7 @@ const Buttons = () => {
     let time =
       today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     console.log(time);
+    console.log(pathState);
     axios
       .post(process.env.REACT_APP_API_POST_URL, {
         Date: date,
