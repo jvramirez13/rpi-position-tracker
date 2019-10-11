@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import "date-fns";
 import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
 import Paper from "@material-ui/core/Paper";
@@ -7,6 +8,11 @@ import TrackingIcon from "@material-ui/icons/TrackChanges";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
 import Buttons from "./Buttons.js";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker
+} from "@material-ui/pickers";
 import "typeface-roboto";
 
 const useStyles = makeStyles(theme => ({
@@ -40,6 +46,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Information = () => {
+  const [selectedDate, setSelectedDate] = useState(new Date("2019-08-18"));
+
+  const handleDateChange = date => {
+    date = date.toISOString();
+    let dateArray = date.split("T");
+    date = dateArray[0];
+    setSelectedDate(date);
+  };
+
   const classes = useStyles();
 
   const latitude = useSelector(state => state.latitude);
@@ -56,6 +71,7 @@ const Information = () => {
         className={classes.paper}
         style={{ marginTop: "25px", marginBottom: "0px" }}
       >
+        {console.log(selectedDate)}
         <Avatar className={classes.avatar} style={{ marginBottom: "20px" }}>
           <TrackingIcon />
         </Avatar>
@@ -81,13 +97,13 @@ const Information = () => {
             <b>Longitude</b>: {longitude}°
           </Typography>
           <Typography component="h1" variant="h5" style={{ marginTop: "40px" }}>
-            <b>X-axis</b>: {xaxis} g
+            <b>X-axis</b>: {xaxis} m/s²
           </Typography>
           <Typography component="h1" variant="h5" style={{ marginTop: "40px" }}>
-            <b>Y-axis</b>: {yaxis} g
+            <b>Y-axis</b>: {yaxis} m/s²
           </Typography>
           <Typography component="h1" variant="h5" style={{ marginTop: "40px" }}>
-            <b>Z-axis</b>: {zaxis} g
+            <b>Z-axis</b>: {zaxis} m/s²
           </Typography>
           <Typography component="h1" variant="h5" style={{ marginTop: "40px" }}>
             <b>Dropped</b>: {dropped}
@@ -97,6 +113,21 @@ const Information = () => {
           </Typography>
         </div>
         <Buttons />
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <KeyboardDatePicker
+            disableToolbar
+            variant="inline"
+            format="MM/dd/yyyy"
+            margin="normal"
+            id="date-picker-inline"
+            label="Polyline Date Picker"
+            value={selectedDate}
+            onChange={handleDateChange}
+            KeyboardButtonProps={{
+              "aria-label": "change date"
+            }}
+          />
+        </MuiPickersUtilsProvider>
       </div>
     </Grid>
   );
