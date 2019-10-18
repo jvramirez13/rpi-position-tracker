@@ -14,6 +14,7 @@ import {
   KeyboardDatePicker
 } from "@material-ui/pickers";
 import "typeface-roboto";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -46,7 +47,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Information = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date("2019-08-18"));
+  let date = new Date();
+  let dateString = date.toISOString();
+  let dateArray = dateString.split("T");
+  date = dateArray[0];
+
+  const [selectedDate, setSelectedDate] = useState(date);
 
   const handleDateChange = date => {
     date = date.toISOString();
@@ -65,13 +71,17 @@ const Information = () => {
   const dropped = useSelector(state => state.dropped);
   const motion = useSelector(state => state.motion);
 
+  function handleClick(e) {
+    e.preventDefault();
+    console.log(selectedDate);
+  }
+
   return (
     <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
       <div
         className={classes.paper}
         style={{ marginTop: "25px", marginBottom: "0px" }}
       >
-        {console.log(selectedDate)}
         <Avatar className={classes.avatar} style={{ marginBottom: "20px" }}>
           <TrackingIcon />
         </Avatar>
@@ -128,6 +138,13 @@ const Information = () => {
             }}
           />
         </MuiPickersUtilsProvider>
+        <Button
+          variant="contained"
+          onClick={handleClick}
+          className={classes.button}
+        >
+          Show polyline for date selected!
+        </Button>
       </div>
     </Grid>
   );
