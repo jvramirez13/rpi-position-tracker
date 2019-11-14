@@ -84,6 +84,7 @@ const Maps = () => {
         />
         {mapsLoaded ? afterMapLoadChanges() : ""}
       </GoogleMap>
+      {console.log(pathState)}
     </Grid>
   );
 };

@@ -58,6 +58,17 @@ function reducer(state, action) {
         path: state.path,
         update: action.payload
       };
+    case "PATH":
+      return {
+        latitude: state.latitude,
+        longitude: state.longitude,
+        xaxis: state.xaxis,
+        yaxis: state.yaxis,
+        zaxis: state.zaxis,
+        dropped: state.dropped,
+        motion: state.motion,
+        path: action.payload
+      };
     default:
       return state;
   }
@@ -65,6 +76,11 @@ function reducer(state, action) {
 
 export const updateAction = data => ({
   type: "UPDATE",
+  payload: data
+});
+
+export const updatePath = data => ({
+  type: "PATH",
   payload: data
 });
 

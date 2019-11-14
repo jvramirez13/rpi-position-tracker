@@ -6,7 +6,6 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import TrackingIcon from "@material-ui/icons/TrackChanges";
 import { makeStyles } from "@material-ui/core/styles";
-import { useSelector } from "react-redux";
 import Buttons from "./Buttons.js";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -15,6 +14,9 @@ import {
 } from "@material-ui/pickers";
 import "typeface-roboto";
 import Button from "@material-ui/core/Button";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { updatePath } from "../Redux.js";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,6 +54,9 @@ const Information = () => {
   let dateArray = dateString.split("T");
   date = dateArray[0];
 
+  const dispatch = useDispatch();
+  const update = data => dispatch(updatePath(data));
+
   const [selectedDate, setSelectedDate] = useState(date);
 
   const handleDateChange = date => {
@@ -73,7 +78,13 @@ const Information = () => {
 
   function handleClick(e) {
     e.preventDefault();
-    console.log(selectedDate);
+    let dateheh = "2019-11-1";
+    axios
+      .get(process.env.REACT_APP_GET_POLYLINE_URL + dateheh)
+      .then(response => {
+        update(response.data[0].Path);
+        console.log(response.data[0].Path);
+      });
   }
 
   return (
