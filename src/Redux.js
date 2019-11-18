@@ -6,8 +6,8 @@ const initialState = {
   xaxis: 0.0,
   yaxis: 0.0,
   zaxis: 0.0,
-  dropped: "",
-  motion: "",
+  dropped: "False",
+  motion: "False",
   path: [],
   update: true
 };

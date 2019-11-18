@@ -50,6 +50,7 @@ const useStyles = makeStyles(theme => ({
 
 const Information = () => {
   let date = new Date();
+  date.setTime( date.getTime() - new Date().getTimezoneOffset()*60*1000 );
   let dateString = date.toISOString();
   let dateArray = dateString.split("T");
   date = dateArray[0];
@@ -57,13 +58,14 @@ const Information = () => {
   const dispatch = useDispatch();
   const update = data => dispatch(updatePath(data));
 
-  const [selectedDate, setSelectedDate] = useState(date);
+  const [selectedDate1, setSelectedDate1] = useState(date);
+  const [selectedDate2, setSelectedDate2] = useState(date);
 
   const handleDateChange = date => {
     date = date.toISOString();
     let dateArray = date.split("T");
     date = dateArray[0];
-    setSelectedDate(date);
+    setSelectedDate1(date);
   };
 
   const classes = useStyles();
@@ -78,12 +80,16 @@ const Information = () => {
 
   function handleClick(e) {
     e.preventDefault();
-    let dateheh = "2019-11-1";
+    console.log(selectedDate1);
     axios
-      .get(process.env.REACT_APP_GET_POLYLINE_URL + dateheh)
+      .get(process.env.REACT_APP_GET_POLYLINE_URL + selectedDate1)
       .then(response => {
-        update(response.data[0].Path);
-        console.log(response.data[0].Path);
+        try {
+          update(response.data[0].Path);
+          console.log(response.data[0].Path);
+        } catch (error) {
+          alert("No polyline for that date!");
+        }
       });
   }
 
@@ -109,27 +115,27 @@ const Information = () => {
         </Typography>
         <div
           className={classes.paper}
-          style={{ marginTop: "40px", marginBottom: "40px" }}
+          style={{ marginTop: "20px", marginBottom: "10px" }}
         >
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h6">
             <b>Latitude</b>: {latitude}°
           </Typography>
-          <Typography component="h1" variant="h5" style={{ marginTop: "40px" }}>
+          <Typography component="h1" variant="h6" style={{ marginTop: "20px" }}>
             <b>Longitude</b>: {longitude}°
           </Typography>
-          <Typography component="h1" variant="h5" style={{ marginTop: "40px" }}>
+          <Typography component="h1" variant="h6" style={{ marginTop: "20px" }}>
             <b>X-axis</b>: {xaxis} m/s²
           </Typography>
-          <Typography component="h1" variant="h5" style={{ marginTop: "40px" }}>
+          <Typography component="h1" variant="h6" style={{ marginTop: "20px" }}>
             <b>Y-axis</b>: {yaxis} m/s²
           </Typography>
-          <Typography component="h1" variant="h5" style={{ marginTop: "40px" }}>
+          <Typography component="h1" variant="h6" style={{ marginTop: "20px" }}>
             <b>Z-axis</b>: {zaxis} m/s²
           </Typography>
-          <Typography component="h1" variant="h5" style={{ marginTop: "40px" }}>
+          <Typography component="h1" variant="h6" style={{ marginTop: "20px" }}>
             <b>Dropped</b>: {dropped}
           </Typography>
-          <Typography component="h1" variant="h5" style={{ marginTop: "40px" }}>
+          <Typography component="h1" variant="h6" style={{ marginTop: "20px" }}>
             <b>Motion Detected</b>: {motion}
           </Typography>
         </div>
@@ -141,8 +147,22 @@ const Information = () => {
             format="MM/dd/yyyy"
             margin="normal"
             id="date-picker-inline"
-            label="Polyline Date Picker"
-            value={selectedDate}
+            label="Polyline From: "
+            value={selectedDate1}
+            onChange={handleDateChange}
+            KeyboardButtonProps={{
+              "aria-label": "change date"
+            }}
+          />
+
+          <KeyboardDatePicker
+            disableToolbar
+            variant="inline"
+            format="MM/dd/yyyy"
+            margin="normal"
+            id="date-picker-inline"
+            label="Polyline To:"
+            value={selectedDate2}
             onChange={handleDateChange}
             KeyboardButtonProps={{
               "aria-label": "change date"
