@@ -47,10 +47,13 @@ const Interface = () => {
   const status = useSelector(state => state.update);
 
   useEffect(() => {
+    console.log(status);
     let interval = setInterval(
       () =>
-        axios.get(process.env.REACT_APP_API_GET_URL).then(response => {
+        axios.get(process.env.REACT_APP_API_URL).then(response => {
           if (status === true) {
+            console.log("it worked!");
+            console.log(response.data);
             update(response.data);
           }
         }),
